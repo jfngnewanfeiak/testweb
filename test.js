@@ -1,4 +1,16 @@
-
+function test(){
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:3000/user");
+    xhr.send();
+    xhr.onload = () => {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        const data = xhr.response;
+        console.log(data);} 
+    else {
+        console.log(`Error: ${xhr.status}`);
+        }
+    };
+}
 
 
 //大阪、東京、名古屋
@@ -16,7 +28,7 @@ let requestURL;
 function func(){
     for (let i=0;i<city_code_list.length;i++){
         requestURL = "https://api.openweathermap.org/data/2.5/weather?id=" + city_code_list[i] + "&appid=" + API_Key;
-            //Ajax通信用のオブジェクト作成
+        //Ajax通信用のオブジェクト作成
         let xhr = new XMLHttpRequest();
 
         //通信方式にURLを設定
