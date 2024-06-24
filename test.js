@@ -1,3 +1,5 @@
+// const { response } = require("express");
+
 function test(){
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:3000/user");
@@ -25,31 +27,41 @@ let money_list =[10,20,30];
 let stock_list = [57,87,45];
 let API_Key = "ea53860b2e58c8aef630ff15eb8fdcff";
 let requestURL;
+
 function func(){
     for (let i=0;i<city_code_list.length;i++){
         requestURL = "https://api.openweathermap.org/data/2.5/weather?id=" + city_code_list[i] + "&appid=" + API_Key;
+        fetch(requestURL)
+            .then(res => res.json()) // JSONデータを取得
+            .then(data => {
+        // レスポンスデータを処理するコードをここに記述
+            SaveWeatherInfo(data);
+        })
+            .catch(error => {
+                console.error('リクエストエラー:', error);
+    });
         //Ajax通信用のオブジェクト作成
-        let xhr = new XMLHttpRequest();
+        //let xhr = new XMLHttpRequest();
 
         //通信方式にURLを設定
-        xhr.open("GET",requestURL);
+        // xhr.open("GET",requestURL);
     
         //実行
-        xhr.send();
+        // xhr.send();
 
         //通信ステータスが変わったら実行される関数
         //function()とすることでステータスが変わった時の処理を書いている？1
-        xhr.onreadystatechange = function(){
+        // xhr.onreadystatechange = function(){
             //通信完了チェック
-            if(xhr.readyState == 4){
-                SaveWeatherInfo(xhr.responseText);
-            }
-        }
+            // if(xhr.readyState == 4){
+                // SaveWeatherInfo(xhr.responseText);
+            // }
+        // }
     }
 }
 
 function SaveWeatherInfo(res){
-    let obj = JSON.parse(res);
+    let obj = res;
     weather_list.push(obj.weather[0].description);
     city_list.push(obj.name);
     temp_list.push(obj.main.temp-273.15);
